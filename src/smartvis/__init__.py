@@ -6,12 +6,13 @@ def visualizeEverything(df,maxPermutations=None,maxGraph=None,removeSwap=True):
         plottedPer=1
         plottedGraph=1
         dfNew=df.copy()
-        for i in dfNew.select_dtypes(include="object").columns:
+        columns=dfNew.select_dtypes(include="object").columns
+        for i in columns:
             if dfNew[i].nunique()<=20:
                 dfNew[i]=pd.factorize(df[i])[0]
             else: 
                 dfNew.drop(i,axis=1,inplace=True)
-        finColumns=list(dfNew.columns)
+        finColumns=list(dfNew.select_dtypes(include='number').columns)
         print(f"Plotting for these below Columns:\n{finColumns}")
         for i in finColumns[:]:
             if maxPermutations is not None and plottedPer>maxPermutations:
@@ -22,7 +23,7 @@ def visualizeEverything(df,maxPermutations=None,maxGraph=None,removeSwap=True):
                             break
                         else:
                             if i!=j:
-                                fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i} with {j}")
+                                fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
                                 fig.show()
                                 plottedGraph+=1
                 plottedPer+=1
