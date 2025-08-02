@@ -1,7 +1,8 @@
 import pandas as pd
 import plotly.express as px
+from itertools import combinations, permutations
 
-def visualizeEverything(df,maxPermutations=None,maxGraph=None,removeSwap=True):
+def visualizeEverything(df,maxPermutations=None,maxGraph=None,permute=True):
     try:
         plottedPer=1
         plottedGraph=1
@@ -14,22 +15,38 @@ def visualizeEverything(df,maxPermutations=None,maxGraph=None,removeSwap=True):
                 dfNew.drop(i,axis=1,inplace=True)
         finColumns=list(dfNew.select_dtypes(include='number').columns)
         print(f"Plotting for these below Columns:\n{finColumns}")
-        for i in finColumns[:]:
-            if maxPermutations is not None and plottedPer>maxPermutations:
-                        break
+        finColumns=list(permutations(finColumns,2) if permute==True else combinations(finColumns,2))
+        second=finColumns[0][1]
+        for i, j in finColumns:
+            if (maxGraph is not None and maxPermutations is None and plottedGraph<=maxGraph) or (maxGraph is None and maxPermutations is not None and plottedPer<=maxPermutations):
+                if i==second:
+                    if plottedPer<maxPermutations:
+                        fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
+                        fig.show()
+                    plottedPer+=1
+                    second=j
+                    continue
+                fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
+                fig.show()
+                plottedGraph+=1 if maxGraph is not None else plottedGraph
+
+            elif (maxGraph is not None and maxPermutations is not None):
+                if i == second:
+                    if plottedPer<maxPermutations:
+                        fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
+                        fig.show()
+                    plottedPer+=1
+                    second=j
+                else:
+                    if plottedGraph>maxGraph:
+                        continue
+                    else:
+                        fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
+                        fig.show()
+                        plottedGraph+=1
+
             else:
-                for j in finColumns:
-                        if maxGraph is not None and plottedGraph>maxGraph:
-                            break
-                        else:
-                            if i!=j:
-                                fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
-                                fig.show()
-                                plottedGraph+=1
-                plottedPer+=1
-                if maxGraph is not None and maxPermutations is not None:
-                     plottedGraph=1
-                if removeSwap:
-                    finColumns.remove(i)
+                fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
+                fig.show()
     except Exception as e:
         print(f"Error: {e}")
