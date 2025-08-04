@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 from itertools import combinations, permutations
 
-def visualizeEverything(df,iColumns:list[str] | None=None,maxPermutations=None,maxGraph=None,permute=False):
+def visualizeEverything(df,iColumns:list[str] | None=None,maxPermutations:int | None=None,maxGraph:int|None=None,permute:bool|None=False):
     try:
         savedGraphMemory=maxGraph
         plottedPer=1
