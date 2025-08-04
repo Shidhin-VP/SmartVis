@@ -3,6 +3,13 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+#Dist Folder and Packages
+dist/
+*.whl 
+*.tar.gz
+*.tar
+*.gz
+
 # C extensions
 *.so
 
