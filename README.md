@@ -1,4 +1,5 @@
 # SmartVis
+[![PYPI](https://img.shields.io/badge/PYPI-Green)](https://pypi.org/project/smartvis/)  
 A PY Library that can visualize Data Frames Columns in a Ease.
 
 # Installation and About
