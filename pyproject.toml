@@ -4,11 +4,11 @@ build-backend="hatchling.build"
 
 [project]
 name="smartvis"
-version="0.0.1"
+version="0.0.2"
 authors=[
     {name="Shidhin Varghese Philip"}
 ]
-description="Package to Visualize Relationships in Ease."
+description="Package to Visualize Columns Relationships in Ease."
 readme="README.md"
 requires-python=">=3.10"    
 classifiers=[

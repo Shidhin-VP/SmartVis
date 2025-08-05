@@ -24,10 +24,19 @@ def visualizeEverything(df,iColumns:list[str] | None=None,maxPermutations:int | 
             finColumns=list(permutations(finColumns,2) if permute==True else combinations(finColumns,2))
             print(f"List of Permutation:\n{finColumns}" if permute else f"List of Combinations:\n{finColumns}")
             second=finColumns[0][1]
+            forPermute=-1
             for i, j in finColumns:
-                if (maxGraph is not None and maxPermutations is None and plottedGraph<=maxGraph) or (maxGraph is None and maxPermutations is not None and plottedPer<=maxPermutations):
+                forPermute+=1
+                if (maxGraph is not None and maxPermutations is not None and permute==True) or (maxPermutations is not None and permute):
+                    print("\n\033[93mPermute can be only be set to True, if \033[1mEITHER\033[0m\033[93m maxGraph or maxPermuations is set to None\033[0m \n Or \n \n\033[93mPermute can't be True, if MaxPermutations is not None\033[0m")
+                    break
+
+                elif (maxGraph is not None and maxPermutations is None and plottedGraph<=maxGraph) or (maxGraph is None and maxPermutations is not None and plottedPer<=maxPermutations):
                     if i==second:
-                        if plottedPer<maxPermutations:
+                        if maxPermutations is not None and plottedPer<maxPermutations:
+                            fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
+                            fig.show()
+                        elif (maxPermutations is None and maxGraph is not None):
                             fig=px.scatter(dfNew,x=i,y=j,title=f"Scatter Plot: {i.upper()} with {j.upper()}")
                             fig.show()
                         plottedPer+=1
@@ -37,7 +46,7 @@ def visualizeEverything(df,iColumns:list[str] | None=None,maxPermutations:int | 
                     fig.show()
                     plottedGraph+=1 if maxGraph is not None else plottedGraph
 
-                elif (maxGraph is not None and maxPermutations is not None):
+                elif (maxGraph is not None and maxPermutations is not None and permute==False):
                     if i == second:
                         if plottedPer==maxPermutations:
                             break

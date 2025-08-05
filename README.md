@@ -1,5 +1,5 @@
 # SmartVis
-A PY Library that can visualize Data Frames in a smarter way.
+A PY Library that can visualize Data Frames Columns in a Ease.
 
 # Installation and About
 ```
@@ -60,9 +60,7 @@ pip install smartvis
        df=pd.read_csv("cleanedDS.csv")
        ve(df,maxGraph=2, maxPermutations=2,premute=True)
        ```
-       Plots a **Scatter Plot** of 2 Graphs:
-        1. **Name and Age**
-        2. **Age and Name**
+       Will get an error, Both maxGraph and maxPermutations can't be not None if permute is True
      
      * Senario 3:
        ```
@@ -89,9 +87,7 @@ pip install smartvis
       from smartvis import visualizeEverything as ev
       import pandas as pd
       df=pd.read_csv("cleanedDS.csv")
-      ve(df, maxGraph=1, maxPermutations=3,premute=True)
+      ve(df, maxPermutations=3,premute=True)
       ```
-      Plots a **Scatter Plot** of 3 Graph:
-        1. **Name and Age**
-        2. **Age and Name**
-        3. **City and Name**
+      Will show an error as permute can't be **True** when maxPermutations is not None
+
